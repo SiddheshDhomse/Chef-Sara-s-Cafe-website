@@ -1,7 +1,17 @@
 import { Star } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 
 const Testimonials = () => {
+  const container = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ["start end", "end start"]
+  });
+
+  const customEase = [0.16, 1, 0.3, 1];
+  const reviewsY = useTransform(scrollYProgress, [0, 1], ["20%", "-20%"]);
+
   const reviews = [
     {
       name: "Michael T.",
@@ -21,61 +31,69 @@ const Testimonials = () => {
   ];
 
   return (
-    <section id="testimonials" className="py-24 bg-[#FDFBF7]">
+    <section id="testimonials" ref={container} className="py-40 bg-[#FDFBF7] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="text-center mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-serif text-[#2A1B12] mb-4"
-          >
-            Loved by the Community
-          </motion.h2>
+        <div className="text-center mb-24">
           <motion.div 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="flex justify-center items-center gap-2 text-lg text-[#5C4033]"
+             initial={{ opacity: 0, y: 30 }}
+             whileInView={{ opacity: 1, y: 0 }}
+             viewport={{ once: true }}
+             transition={{ duration: 1.2, ease: customEase }}
           >
-            <span>Rated 4.8</span>
+            <h2 className="text-5xl md:text-6xl font-serif text-[#2A1B12] mb-6">
+              Loved by the Community
+            </h2>
+          </motion.div>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 1, ease: customEase }}
+            className="inline-flex justify-center items-center gap-3 text-xl text-[#5C4033] bg-[#E6D5C3]/30 px-8 py-3 rounded-full border border-[#E6D5C3]"
+          >
+            <span className="font-medium">Rated 4.8</span>
             <div className="flex text-[#D4AF37]">
-              {[1,2,3,4,5].map(i => <Star key={i} size={18} fill="currentColor" />)}
+              {[1,2,3,4,5].map(i => <Star key={i} size={20} fill="currentColor" />)}
             </div>
-            <span>on Google</span>
+            <span className="font-light">on Google</span>
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <motion.div 
+          style={{ y: reviewsY }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12"
+        >
           {reviews.map((review, idx) => (
             <motion.div 
               key={idx}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 100 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.2 }}
-              className="bg-white p-8 rounded-3xl shadow-sm border border-[#E6D5C3]/30 hover-glow"
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: idx * 0.15, duration: 1.4, ease: customEase }}
+              className="group bg-white p-10 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-[#E6D5C3]/40 relative transform transition-all duration-500 hover:-translate-y-4 hover:shadow-[0_20px_40px_rgb(92,64,51,0.12)]"
             >
-              <div className="flex text-[#D4AF37] mb-4">
-                {[1,2,3,4,5].map(i => <Star key={i} size={16} fill="currentColor" />)}
+              <div className="absolute top-0 right-10 transform -translate-y-1/2 opacity-10 font-serif text-8xl text-[#5C4033] group-hover:text-[#748A76] transition-colors duration-500">
+                "
               </div>
-              <p className="text-[#2A1B12] text-lg mb-6 leading-relaxed">
+              <div className="flex text-[#D4AF37] mb-8">
+                {[1,2,3,4,5].map(i => <Star key={i} size={18} fill="currentColor" />)}
+              </div>
+              <p className="text-[#2A1B12] text-xl mb-12 leading-relaxed font-serif italic">
                 "{review.text}"
               </p>
-              <div className="flex items-center gap-4 mt-auto">
-                <div className="w-12 h-12 bg-[#E6D5C3] rounded-full flex items-center justify-center text-[#5C4033] font-bold text-xl">
+              <div className="flex items-center gap-5 mt-auto">
+                <div className="w-14 h-14 bg-[#E6D5C3] rounded-full flex items-center justify-center text-[#5C4033] font-bold text-2xl">
                   {review.name.charAt(0)}
                 </div>
                 <div>
-                  <h4 className="font-bold text-[#2A1B12]">{review.name}</h4>
-                  <span className="text-xs text-[#5C4033]/60">{review.date}</span>
+                  <h4 className="font-bold text-[#2A1B12] tracking-wide">{review.name}</h4>
+                  <span className="text-sm text-[#5C4033]/60 uppercase tracking-widest">{review.date}</span>
                 </div>
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
