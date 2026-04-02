@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  
+  --color-cafe-cream: #FDFBF7;
+  --color-cafe-beige: #E6D5C3;
+  --color-cafe-brown: #5C4033;
+  --color-cafe-dark: #2A1B12;
+  --color-cafe-green: #748A76;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-cafe-cream);
+    color: var(--color-cafe-dark);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+  }
+}
+
+.hover-glow {
+  transition: box-shadow 0.3s ease-in-out;
+}
+.hover-glow:hover {
+  box-shadow: 0 10px 25px -5px rgba(92, 64, 51, 0.2);
+}
