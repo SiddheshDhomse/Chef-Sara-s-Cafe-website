@@ -1,15 +1,27 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import { motion, useScroll, useTransform, useVelocity, useSpring, useAnimationFrame } from 'framer-motion';
 
 const Menu = () => {
   const container = useRef(null);
-  const { scrollYProgress } = useScroll({
+  
+  // Base scroll tracking
+  const { scrollY, scrollYProgress } = useScroll({
     target: container,
     offset: ["start end", "end start"]
   });
 
-  const titleY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const customEase = [0.16, 1, 0.3, 1];
+
+  // Velocity calculations for Skew distortion
+  const scrollVelocity = useVelocity(scrollY);
+  const smoothVelocity = useSpring(scrollVelocity, {
+    damping: 50,
+    stiffness: 400
+  });
+  const velocitySkewY = useTransform(smoothVelocity, [-1000, 0, 1000], [4, 0, -4]);
+
+  // Infinite Marquee calculation
+  const marqueeX = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
 
   const favoriteDishes = [
     { name: "Fluffy Pancakes", desc: "Served with fresh berries, powdered sugar & maple syrup.", image: "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=800" },
@@ -20,12 +32,15 @@ const Menu = () => {
 
   return (
     <section id="menu" ref={container} className="py-32 bg-[#E6D5C3]/20 relative overflow-hidden">
-      {/* Decorative background typography */}
+      
+      {/* Infinite Velocity Marquee */}
       <motion.div 
-        style={{ y: titleY }}
-        className="absolute -top-10 left-0 right-0 text-center select-none pointer-events-none opacity-5 overflow-hidden font-serif"
+        style={{ x: marqueeX }}
+        className="absolute -top-10 left-0 flex whitespace-nowrap opacity-[0.03] select-none pointer-events-none"
       >
-        <h1 className="text-[15rem] leading-none whitespace-nowrap">Favorites</h1>
+        <h1 className="text-[18rem] md:text-[20rem] font-serif tracking-tight leading-none uppercase">
+          FRESH PLATES — DAILY ROASTS — HOMEMADE SOUPS — WARM PASTRIES — 
+        </h1>
       </motion.div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -45,7 +60,7 @@ const Menu = () => {
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1.2, delay: 0.1, ease: customEase }}
-              className="text-5xl md:text-6xl font-serif text-[#2A1B12] leading-tight"
+              className="text-5xl md:text-7xl font-serif text-[#2A1B12] leading-none tracking-tight"
             >
               Favorite Dishes
             </motion.h2>
@@ -61,7 +76,11 @@ const Menu = () => {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Dynamic Skew Container */}
+        <motion.div 
+          style={{ skewY: velocitySkewY }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 origin-center"
+        >
           {favoriteDishes.map((item, idx) => (
             <motion.div 
               key={item.name}
@@ -69,15 +88,16 @@ const Menu = () => {
               whileInView={{ clipPath: "inset(0% 0 0 0 round 1rem)", opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ delay: idx * 0.15, duration: 1.2, ease: customEase }}
-              className="flex flex-col h-full group cursor-pointer"
+              className="flex flex-col h-full group cursor-none"
             >
-              <div className="relative overflow-hidden rounded-3xl mb-6 shadow-sm hover-glow h-72">
+              <div className="relative overflow-hidden rounded-[2rem] mb-6 shadow-sm hover-glow h-80">
                 <motion.img 
-                  whileHover={{ scale: 1.08 }}
-                  transition={{ duration: 0.8, ease: customEase }}
+                  whileHover={{ scale: 1.15 }}
+                  transition={{ duration: 1, ease: customEase }}
                   src={item.image} 
                   alt={item.name} 
                   className="w-full h-full object-cover origin-center"
+                  style={{ transform: "translateZ(0)" }}
                 />
               </div>
               <div className="flex justify-between items-start mb-2 px-2">
@@ -90,7 +110,7 @@ const Menu = () => {
               </p>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -101,10 +121,10 @@ const Menu = () => {
         >
           <a 
             href="#menu" 
-            className="group relative inline-flex items-center justify-center px-10 py-4 font-medium text-lg text-white bg-[#5C4033] rounded-full overflow-hidden transition-all duration-500 hover:shadow-2xl"
+            className="group relative inline-flex items-center justify-center px-12 py-5 font-medium text-lg text-white bg-[#5C4033] rounded-full overflow-hidden transition-all duration-500 hover:shadow-2xl hover:scale-105"
           >
             <span className="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent to-black" />
-            <span className="absolute w-0 h-0 transition-all duration-700 ease-out bg-[#748A76] rounded-full group-hover:w-72 group-hover:h-72 scale-150 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" />
+            <span className="absolute w-0 h-0 transition-all duration-700 ease-out bg-[#748A76] rounded-full group-hover:w-[400px] group-hover:h-[400px] transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" />
             <span className="relative z-10 transition-colors duration-300">View Full Menu</span>
           </a>
         </motion.div>

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import Lenis from 'lenis';
+import CustomCursor from './components/CustomCursor';
 import Navbar from './components/Layout/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -29,6 +30,7 @@ function App() {
 
   return (
     <div className="font-sans antialiased text-[#2A1B12] bg-[#FDFBF7] selection:bg-[#748A76] selection:text-white">
+      <CustomCursor />
       <Navbar />
       <main>
         <Hero />
