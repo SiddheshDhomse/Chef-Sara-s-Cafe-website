@@ -88,7 +88,7 @@ const Menu = () => {
               whileInView={{ clipPath: "inset(0% 0 0 0 round 1rem)", opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ delay: idx * 0.15, duration: 1.2, ease: customEase }}
-              className="flex flex-col h-full group cursor-none"
+              className="flex flex-col h-full group cursor-pointer"
             >
               <div className="relative overflow-hidden rounded-[2rem] mb-6 shadow-sm hover-glow h-80">
                 <motion.img 

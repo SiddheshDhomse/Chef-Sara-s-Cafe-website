@@ -78,7 +78,7 @@ const Testimonials = () => {
               whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ delay: idx * 0.15, duration: 1.4, ease: customEase }}
-              className="group bg-white p-12 rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-[#E6D5C3]/40 relative transform transition-all duration-500 hover:-translate-y-4 hover:shadow-[0_20px_40px_rgb(92,64,51,0.12)] cursor-none"
+              className="group bg-white p-12 rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-[#E6D5C3]/40 relative transform transition-all duration-500 hover:-translate-y-4 hover:shadow-[0_20px_40px_rgb(92,64,51,0.12)] cursor-pointer"
             >
               <div className="absolute top-0 right-10 transform -translate-y-1/2 opacity-5 font-serif text-[10rem] leading-none text-[#5C4033] group-hover:text-[#748A76] transition-colors duration-500 pointer-events-none">
                 "
