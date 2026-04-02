@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 const Menu = () => {
   const favoriteDishes = [
-    { name: "Fluffy Pancakes", desc: "Served with fresh berries, powdered sugar & maple syrup.", image: "https://images.unsplash.com/photo-1528669826296-bdc71fa23b2c?auto=format&fit=crop&q=80&w=800" },
+    { name: "Fluffy Pancakes", desc: "Served with fresh berries, powdered sugar & maple syrup.", image: "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=800" },
     { name: "Artisan Avocado Toast", desc: "Topped with a perfect poached egg and microgreens.", image: "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&q=80&w=800" },
     { name: "Gourmet Turkey Club", desc: "Fresh lettuce, turkey, local cheese on toasted sourdough.", image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&q=80&w=800" },
     { name: "Signature Cappuccino", desc: "Rich espresso with steamed milk and beautiful latte art.", image: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=800" }
