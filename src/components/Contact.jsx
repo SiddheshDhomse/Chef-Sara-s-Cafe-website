@@ -37,7 +37,7 @@ const Contact = () => {
                   <a 
                     href="https://goo.gl/maps/YOUR_MAP_ID" 
                     target="_blank" 
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center mt-3 text-[#748A76] font-medium hover:text-[#5C4033] transition-colors"
                   >
                     Get Directions <ExternalLink size={16} className="ml-1" />
@@ -102,6 +102,7 @@ const Contact = () => {
               height="100%" 
               style={{ border: 0 }} 
               allowFullScreen="" 
+              sandbox="allow-scripts allow-same-origin"
               loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade"
               title="Google Maps targeting 7201 S Exchange Ave"
